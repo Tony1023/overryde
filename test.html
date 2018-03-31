@@ -7,7 +7,7 @@
 				fetchLyftPrice(34.070547, -118.446576, 34.021963, -118.286429)
 					.then(data => { console.log(data.cost_estimates[3].estimated_cost_cents_min)}); */
 				fetchUberPrice(34.070547, -118.446576, 34.021963, -118.286429)
-					.then(data => { console.log(data.prices[1].high_estimate * 10)})
+					.then(data => { console.log(data.prices)})
 					.then(error => console.log(error));
 			}
 		</script>

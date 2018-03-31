@@ -54,24 +54,15 @@ function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 
 function fetchUberPrice(startLat, startLng, endLat, endLng) {
 	let URL = "https://api.uber.com/v1/estimates/price?start_latitude=" + String(startLat) + "&start_longitude=" + String(startLng) + "&end_latitude=" + String(endLat) + "&end_longitude=" + String(endLng);
-	URL += ("&server_token=" + accessToken.uber);
+	//URL += ("&server_token=" + accessToken.uber);
 	console.log(URL);
-	/*
-	return fetch(url, {
+	
+	return fetch(URL, {
 		headers: {
-			'Access-Control-Allow-Origin': ,
 			Authorization: 'Token -Q_I4XWhcADPx5e2YXUJQnndK2Cs6ugTM9_HkdJA',
 			'Content-Type': 'application/json',
 			'Accept-Language': 'en_US'
 		}
 	})
-		.then(response => console.log(response));*/
-
-	$.ajax({
-		url: URL,
-		cache: false,
-		success: function(html){
-			$("#results").append(html);
-		}
-	});
+		.then(response => response.json());
 }
