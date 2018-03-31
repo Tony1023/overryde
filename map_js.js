@@ -37,7 +37,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(position=>{
           let currpos = new CustomEvent("PositionFix",position.coords);
           startpos.dispatchEvent(currpos);
-        },
+        }),
         showLocationError(err);
       );
     } else {
