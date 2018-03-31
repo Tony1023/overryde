@@ -1,14 +1,12 @@
+
+var marker_store = {start: undefined, end: undefined};
+
 /*************************************************************/
 //FIND CURRENT POSITION
 /*************************************************************/
 
-var startpos = document.getElementById("map");
-
 //EventListener for when HTML5 can fix location
-startpos.addEventListener("start",coords=>{
-  startpos.innerHTML = "";
-  initMap(coords.latitude,coords.longitudes);
-});
+document.addEventListener("DOMContentLoaded", getLocation());
 
 //Error Callback for Location services
 function showLocationError(error) {
@@ -29,16 +27,22 @@ function showLocationError(error) {
             x.innerHTML = "An unknown error occurred."
             break;
     }
+    throw "Retry? Connection might be the issue.";
 }
 
 //Get Current Location via HTML5
 function getLocation() {
+    var startpos = document.getElementById("map");
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position=>{
-          let currpos = new CustomEvent("PositionFix",position.coords);
-          startpos.dispatchEvent(currpos);
-        }),
-        showLocationError(err);
+        navigator.geolocation.getCurrentPosition(
+          (position)=>{
+            let startpos = document.getElementById("map");
+            startpos.innerHTML = "";
+            updateOrigin(position.coords);
+          },
+          (err)=>{
+            showLocationError(err);
+          }
       );
     } else {
       let text_title = document.getElementById("text_title");
@@ -52,28 +56,61 @@ function getLocation() {
 /*************************************************************/
 // DRAW MAP
 /*************************************************************/
-
-//reinitmap
-function initMap(latitude, longitude) {
-  var here = {lat: latitude, lng: longitude};
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: here
-  });
-  var marker = new google.maps.Marker({
-    position: here,
-    map: map
-  });
+function updateOrigin(coords) {
+  let m = document.getElementById('map');
+  var here = {lat: coords.latitude, lng: coords.longitude};
+  var marker = marker_store.start;
+  if(typeof m === "object"){
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 4,
+      center: here
+    });
+  } else if(typeof marker === "undefined"){
+    var marker = new google.maps.Marker({
+      position: here,
+      map: map
+    });
+    marker.setLabel("A");
+  } else {
+    marker.setPosition(here);
+  }
+  marker_store.start = marker;
 }
 
 /*************************************************************/
 // Set DESTINATION MARKER
 /*************************************************************/
-var endpos = document.getElementById("map");
-endpos.addEventListener("setDestination",coords=>{
+document.getElementById('map').addEventListener("setDestination",detail=>{
+  let coords = detail.coords;
+  var here = { lat:coords.lat,lng:coords.lng};
+  var marker = marker_store.end;
+  //create else update
+  if(typeof marker === "undefined"){
+    marker = new google.maps.Marker({
+      position: here,
+      map: here
+    });
+
+    marker.setLabel("B");
+  }else{
+    marker.setPosition(here);
+  }
+    marker_store.end = marker;
+});
+/*
+document.getElementById("map").addEventListener("setDestination",coords=>{
   var here = { lat:coords.lat,lng:coords.lng};
   var marker = new google.maps.Marker({
     position: here,
     map: endpos
   })
+  marker.setLabel("B");
+
+  marker_store.end = marker;
 });
+*/
+/*************************************************************/
+// Reset ORIGIN
+/*************************************************************/
+var r_h = document.getElementById("reset_here");
+r_h.on("click", getLocation());

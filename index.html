@@ -16,11 +16,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="map_js.js"></script>
-    <script>
-      $(document).ready(function(){
-        getLocation();
-      });
-    </script>
+
     <title>Overryde</title>
   </head>
   <body>
@@ -35,24 +31,31 @@
     </div>
 
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=getLocation">
     </script>
 
     <!-- Input form for current place -->
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="ORIGIN" aria-label="Recipient's username" aria-describedby="basic-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Button</button>
+    <form>
+      <label for="ORIGIN">Trip Origin</label>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="ORIGIN" aria-label="ORIGIN" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" id="reset_here" type="button">HERE</button>
+          <button class="btn btn-outline-secondary" id="reset_origin" type="button">NEW ORIGIN</button>
+        </div>
       </div>
-    </div>
+    </form>
 
     <!-- Input form for DESTINATION -->
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="DESTINATION" aria-label="Recipient's username" aria-describedby="basic-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Button</button>
+    <form>
+      <label for="DESTINATION"> Destination </label>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="DESTINATION" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button">Button</button>
+        </div>
       </div>
-    </div>
+  </form>
 
 
     <button type="button" class="btn btn-primary">Fryft</button>
