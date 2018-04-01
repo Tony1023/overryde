@@ -42,7 +42,7 @@ EventTarget.prototype.dispatchEvent = function(event) {
 var perm_map = undefined;
 var origin_d = undefined;
 
-var target = new EventTarget('secret');
+var target = new EventTarget();
 
 //Error Callback for Location services
 function showLocationError(error) {

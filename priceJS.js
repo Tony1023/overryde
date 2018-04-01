@@ -36,8 +36,8 @@ EventTarget.prototype.dispatchEvent = function(event) {
 };
 
 
-var uberTarget = new EventTarget('uber');
-var lyftTarget = new EventTarget('lyft');
+var uberTarget = new EventTarget();
+var lyftTarget = new EventTarget();
 
 /**
  * Functions that make requests to the uber and lyft APIs for prices
