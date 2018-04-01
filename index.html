@@ -20,7 +20,10 @@
     <title>Overryde</title>
   </head>
   <body>
-
+    <!-- div id="container">
+      <input id="destination-input" class="controls mb-3" type="text"
+        placeholder="Enter a destination" aria-label="medium">
+    </div -->
     <div id="map">
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -31,31 +34,19 @@
     </div>
 
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=getLocation">
-    </script>
-
-    <!-- Input form for current place -->
-    <form>
-      <label for="ORIGIN">Trip Origin</label>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="ORIGIN" aria-label="ORIGIN" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" id="reset_here" type="button">HERE</button>
-          <button class="btn btn-outline-secondary" id="reset_origin" type="button">NEW ORIGIN</button>
-        </div>
-      </div>
-    </form>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBX2wovb-LmHI1RLmYkNHWcuQQV68ViIBM&libraries=places&callback=mapInit"
+        async defer></script>
 
     <!-- Input form for DESTINATION -->
     <form>
-      <label for="DESTINATION"> Destination </label>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="DESTINATION" aria-label="Recipient's username" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">Button</button>
-        </div>
-      </div>
-  </form>
+      <label for="DEST">Trip Destination</label>
+        <input type="text" id="destination-input" class="form-control controls" placeholder="Enter Your Destination" aria-label="DEST" aria-describedby="basic-addon2">
+    </form>
+
+    <!-- Button to reset ORIGIN -->
+    <form>
+      <button type="button" id="reset-origin" class="btn btn-warning mx-auto">Reset Origin</button>
+    </form>
 
 
     <button type="button" class="btn btn-primary">Fryft</button>
