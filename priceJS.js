@@ -1,3 +1,6 @@
+var uberTarget = new EventTarget('uber');
+var lyftTarget = new EventTarget('lyft');
+
 /**
  * Functions that make requests to the uber and lyft APIs for prices
  * Lyft key is ranlated by https://github.com/kigiri/fetch, original client_id and client_secret not listed
@@ -9,9 +12,11 @@ let accessToken = {
 }
 
 function retrieveData(startLat, startLng, endLat, endLng) {
+	console.log(endLat);
 	//Fetch the newest lyft token. Uber's server token is ready
 	fetchLyftToken()
-		.then(data => { lyftTokenHandler(data);
+		.then(data => {
+			lyftTokenHandler(data);
 			fetchLyftPrice(startLat, startLng, endLat, endLng)
 		});
 	fetchUberPrice(startLat, startLng, endLat, endLng);
@@ -22,8 +27,10 @@ function retrieveData(startLat, startLng, endLat, endLng) {
  */
 function fetchLyftToken() {
 	return fetch("https://api.lyft.com/oauth/token", {
-		body: JSON.stringify({"grant_type": "client_credentials", 
-			"scope": "public"}),
+		body: JSON.stringify({
+			"grant_type": "client_credentials",
+			"scope": "public"
+		}),
 		headers: {
 			Authorization: "Basic " + lyftKey,
 			"Content-Type": "application/json"
@@ -52,7 +59,7 @@ function fetchUberPrice(startLat, startLng, endLat, endLng) {
 	let url = "https://api.uber.com/v1/estimates/price?start_latitude=" + String(startLat) + "&start_longitude=" + String(startLng) + "&end_latitude=" + String(endLat) + "&end_longitude=" + String(endLng);
 	//url += ("&server_token=" + accessToken.uber);
 	console.log(url);
-	
+
 	fetch(url, {
 		headers: {
 			Authorization: 'Token -Q_I4XWhcADPx5e2YXUJQnndK2Cs6ugTM9_HkdJA',
@@ -76,13 +83,15 @@ function lyftEvent(data) {
 		return lyftType.includes(type.ride_type);
 	}
 	let parse = data.cost_estimates.filter(typeMatch)
-	let eventData = { data: [] };
-	parse.forEach(function(item) {
-		eventData.data.push({'type': item.ride_type, 'estimatedPrice': item.estimated_cost_cents_min})
+	let eventData = { detail: [] };
+	parse.forEach(function (item) {
+		eventData.detail.push({ 'type': item.ride_type, 
+			'estimatedPrice': item.estimated_cost_cents_min
+		})
 	});
 	console.log(eventData);
 	let lyftPrice = new CustomEvent("lyftPrice", eventData);
-	document.dispatchEvent(lyftPrice);
+	lyftTarget.dispatchEvent(lyftPrice);
 }
 
 function uberEvent(data) {
@@ -90,14 +99,15 @@ function uberEvent(data) {
 		return uberType.includes(type.localized_display_name);
 	}
 	let parse = data.prices.filter(typeMatch);
-	let eventData = { data: [] };
-	parse.forEach(function(item) {
-		eventData.data.push({'type': item.localized_display_name,
+	let eventData = { detail: [] };
+	parse.forEach(function (item) {
+		eventData.detail.push({
+			'type': item.localized_display_name,
 			'estimatedPrice': item.low_estimate,
-			'estimatedPrice_high': item.high_estimate	
+			'estimatedPrice_high': item.high_estimate
 		})
 	})
 	console.log(eventData);
-	let lyftPrice = new CustomEvent("uberPrice", eventData);
-	document.dispatchEvent(lyftPrice);
+	let uberPrice = new CustomEvent("uberPrice", eventData);
+	uberTarget.dispatchEvent(uberPrice);
 }

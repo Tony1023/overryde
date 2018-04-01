@@ -1,5 +1,3 @@
-
-
 /*************************************************************/
 //FIND CURRENT POSITION
 /*************************************************************/
@@ -7,6 +5,7 @@
 var perm_map = undefined;
 var origin_d = undefined;
 
+var target = new EventTarget('secret');
 
 //Error Callback for Location services
 function showLocationError(error) {
@@ -131,21 +130,21 @@ function mapRealInit(here) {
     */
 
 
-      map.setCenter({lat:place.geometry.location.lat-here.lat/2,
-        lng:place.geometry.location.lat-here.lng/2});
-      map.setZoom(17);  // Why 17? Because it looks good.
+    map.setCenter({lat:place.geometry.location.lat-here.lat/2,
+      lng:place.geometry.location.lat-here.lng/2});
+    map.setZoom(17);  // Why 17? Because it looks good.
 
 
 
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
 
-    var cdocevent = new CustomEvent("k", {details: {
+    var cdocevent = new CustomEvent("k", {detail: {
       origin: here,
-      dest: place.geometry.location
+      dest: place.geometry.location.toJSON()
     }});
 
-    document.dispatchEvent(cdocevent);
+    target.dispatchEvent(cdocevent);
 
   });
 };
