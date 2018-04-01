@@ -78,16 +78,17 @@
         let prices = data.detail;
         console.log(prices);
         prices.forEach(function (item) {
-          let x = document.getElementById(item.type).innerHTML; 
-          x = String(item.estimatedPrice) + '-' + String(item.estimatedPrice_high);
+          let x = document.getElementById(item.type); 
+          console.log(x);
+          x.innerHTML = String(item.estimatedPrice) + '-' + String(item.estimatedPrice_high);
         });
       });
       lyftTarget.addEventListener("lyftPrice", (data) => {
         let prices = data.detail;
         console.log(prices);
         prices.forEach(function (item) {
-          let x = document.getElementById(item.type).innerHTML;
-          x = String(item.estimatedPrice);
+          let x = document.getElementById(item.type);
+          x.innerHTML = String(item.estimatedPrice);
         });
       });
     });

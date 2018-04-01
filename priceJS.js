@@ -89,7 +89,7 @@ function lyftEvent(data) {
 			'estimatedPrice': item.estimated_cost_cents_min
 		})
 	});
-	console.log(eventData);
+	console.log(parse);
 	let lyftPrice = new CustomEvent("lyftPrice", eventData);
 	lyftTarget.dispatchEvent(lyftPrice);
 }
@@ -107,7 +107,7 @@ function uberEvent(data) {
 			'estimatedPrice_high': item.high_estimate
 		})
 	})
-	console.log(eventData);
+	console.log(parse);
 	let uberPrice = new CustomEvent("uberPrice", eventData);
 	uberTarget.dispatchEvent(uberPrice);
 }
