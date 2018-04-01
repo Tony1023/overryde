@@ -77,6 +77,18 @@ function fetchUberPrice(startLat, startLng, endLat, endLng) {
 
 const lyftType = ['lyft_line', 'lyft', 'lyft_plus'];
 const uberType = ['POOL', 'uberX', 'uberXL'];
+const typeToName = {
+	'lyft_line': 'Fryft Line', 
+	'lyft': 'Fryft', 
+	'lyft_plus': 'Fryft Plus',
+	'POOL': 'Fuber Pool',
+	'uberX': 'FuberX', 
+	'uberXL': 'FuberXL'
+}
+
+function compare(a, b) {
+	return a.value.estimatedPrice - b.value.estimatedPrice;
+}
 
 function lyftEvent(data) {
 	function typeMatch(type) {
@@ -85,11 +97,12 @@ function lyftEvent(data) {
 	let parse = data.cost_estimates.filter(typeMatch)
 	let eventData = { detail: [] };
 	parse.forEach(function (item) {
-		eventData.detail.push({ 'type': item.ride_type, 
-			'estimatedPrice': item.estimated_cost_cents_min
+		eventData.detail.push({ 
+			key: item.ride_type,
+			value: { 'estimatedPrice': parseInt(item.estimated_cost_cents_min / 100) }
 		})
 	});
-	console.log(parse);
+	eventData.detail.sort(compare);
 	let lyftPrice = new CustomEvent("lyftPrice", eventData);
 	lyftTarget.dispatchEvent(lyftPrice);
 }
@@ -102,12 +115,15 @@ function uberEvent(data) {
 	let eventData = { detail: [] };
 	parse.forEach(function (item) {
 		eventData.detail.push({
-			'type': item.localized_display_name,
-			'estimatedPrice': item.low_estimate,
-			'estimatedPrice_high': item.high_estimate
+			key: item.localized_display_name, 
+			value: {
+				'estimatedPrice': item.low_estimate,
+				'estimatedPrice_high': item.high_estimate
+			}
 		})
 	})
 	console.log(parse);
+	eventData.detail.sort(compare);
 	let uberPrice = new CustomEvent("uberPrice", eventData);
 	uberTarget.dispatchEvent(uberPrice);
 }

@@ -22,8 +22,7 @@
       width: 100%;
     }
 
-    #uberinfo,
-    #lyftinfo {
+    #main > div {
       padding: 50px 100px 50px 100px;
       margin: 10px;
       width: 480px;
@@ -36,6 +35,9 @@
 
     .datarow {
       position: relative;
+    }
+    #uberinfo, #lyftinfo {
+      height: 90px;
     }
 
     .price {
@@ -57,7 +59,6 @@
     }
   </style>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="map_js.js"></script>
   <script src="priceJS.js"></script>
 
@@ -77,29 +78,32 @@
       uberTarget.addEventListener("uberPrice", (data) => {
         let prices = data.detail;
         console.log(prices);
+        let x = document.getElementById("uberinfo");
+        let text = '';
         prices.forEach(function (item) {
-          let x = document.getElementById(item.type); 
-          console.log(x);
-          x.innerHTML = String(item.estimatedPrice) + '-' + String(item.estimatedPrice_high);
+          console.log(item);
+          text += ('<div class="datarow lead">' + typeToName[item.key] + '<span class="price">' + String(item.value.estimatedPrice) + '-' + String(item.value.estimatedPrice_high) + '</span></div/>');
         });
+        x.innerHTML = text;
       });
       lyftTarget.addEventListener("lyftPrice", (data) => {
         let prices = data.detail;
         console.log(prices);
+        let x = document.getElementById("lyftinfo");
+        let text = '';
         prices.forEach(function (item) {
-          let x = document.getElementById(item.type);
-          x.innerHTML = String(item.estimatedPrice);
+          console.log(prices[item]);
+          text += ('<div class="datarow lead">' + typeToName[item.key] + '<span class="price">' + String(item.value.estimatedPrice) + '</span></div/>');
         });
+        x.innerHTML = text;
       });
     });
-
   </script>
 
   <title id="title">Overryde</title>
 </head>
 
 <body>
-  <div id="1"></div><div id="2"></div><div id="3"></div>
   <!-- div id="container">
       <input id="destination-input" class="controls mb-3" type="text"
         placeholder="Enter a destination" aria-label="medium">
@@ -125,15 +129,16 @@
 
     <!-- Button to reset ORIGIN -->
     <form>
-      <button type="button" id="reset-origin" class="btn btn-warning mx-auto">Reset Origin</button>
+      <button type="button" id="reset-origin" class="btn btn-warning mx-auto" onClick="window.location.reload()">Reload</button>
     </form>
 
   </div>
 
   <div id="main">
-    <div id="uberinfo" class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-4">Fuber</h1>
+    <div class="jumbotron jumbotron-fluid">
+      <h1 class="display-4">Fuber</h1>
+      <div id="uberinfo">
+        
         <div class="datarow lead">
           <span>Fuber Pool</span>
           <span id="lyft_line" class="price">10-20</span>
@@ -146,11 +151,13 @@
           <span>FuberXL</span>
           <span id="lyft_plus" class="price">40-60</span>
         </div>
+        
       </div>
     </div>
-    <div id="lyftinfo" class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-4">Fryft</h1>
+    <div class="jumbotron jumbotron-fluid">
+      <h1 class="display-4">Fryft</h1>
+      <div id="lyftinfo">
+        
         <div class="datarow lead">
           <span>Fryft Line</span>
           <span id="POOL" class="price">10</span>
@@ -163,23 +170,20 @@
           <span>Fryft Plus</span>
           <span id="uberXL" class="price">40</span>
         </div>
+        
       </div>
     </div>
   </div>
 
   <div class="clearfloat"></div>
 
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBX2wovb-LmHI1RLmYkNHWcuQQV68ViIBM&libraries=places&callback=mapInit"
-    async defer></script>
+  <script async defer src="mapLib.js" async defer></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+  <script src="jquery-3.2.1.slim.min.js"></script>
+  <script src="popper.min.js"></script>
+  <script src="bootstrap.min.js"></script>
 </body>
 
 </html>
