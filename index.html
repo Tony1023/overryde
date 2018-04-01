@@ -8,9 +8,34 @@
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
      <style>
+       body {
+        margin-left: auto;
+        margin-right: auto;
+        width: 1000px;
+      }
       #map {
         height: 400px;
         width: 100%;
+      }
+      #uberinfo, #lyftinfo {
+        padding: 50px 100px 50px 100px;
+        margin: 10px;
+        width: 480px;
+        float: left;
+      }
+      #main h1 {
+        text-align: center;
+      }
+      .datarow {
+        position: relative;
+      }
+      .price {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+      }
+      .clearfloat {
+        clear: both;
       }
     </style>
 
@@ -48,9 +73,26 @@
       <button type="button" id="reset-origin" class="btn btn-warning mx-auto">Reset Origin</button>
     </form>
 
+    <div id="main">
+      <div id="uberinfo" class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Uber</h1>
+            <div class="datarow lead"><span>POOL</span><span id="pool" class="price">10-20</span></div>
+            <div class="datarow lead"><span>UberX</span><span id="uberX" class="price">30-50</span></div>
+            <div class="datarow lead"><span>UberXL</span><span id="uberXL" class="price">40-60</span></div>
+        </div>
+      </div>
+      <div id="lyftinfo" class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Lyft</h1>
+            <div class="datarow lead"><span>Lyft Line</span><span id="lyftline" class="price">10</span></div>
+            <div class="datarow lead"><span>Lyft</span><span id="lyft" class="price">30</span></div>
+            <div class="datarow lead"><span>Lyft Plus</span><span id="lyftplus" class="price">40</span></div>
+        </div>
+      </div>
+    </div>
 
-    <button type="button" class="btn btn-primary">Fryft</button>
-    <button type="button" class="btn btn-primary">Fruber</button>
+    <div class="clearfloat"></div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
