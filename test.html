@@ -1,22 +1,12 @@
 <html>
 	<head>
-		<script text="text/javascript" src="priceJS.js"></script>
-		<script text="text/javascript">
-			function getPrices() {
-				/*
-				fetchLyftPrice(34.070547, -118.446576, 34.021963, -118.286429)
-					.then(data => { console.log(data.cost_estimates[3].estimated_cost_cents_min)}); */
-				fetchUberPrice(34.070547, -118.446576, 34.021963, -118.286429)
-					.then(data => { console.log(data.prices)})
-					.then(error => console.log(error));
-			}
+		<script text="text/javascript" src="priceJS.js">
+			import { retrieveData } from './priceJS.js';
 		</script>
 	</head>
 	<body>
-		<script>
-			setUp();
-		</script>
+			
 		Hello...
-		<input type="button" onclick="getPrices()" value="Get Price! Check it in console.">
+		<input type="button" onclick="retrieveData(34.070547, -118.446576, 34.021963, -118.286429)" value="Get Price! Check it in console.">
 	</body>
 </html>
