@@ -8,7 +8,7 @@ let accessToken = {
 	uber: '-Q_I4XWhcADPx5e2YXUJQnndK2Cs6ugTM9_HkdJA'
 }
 
-export default function retrieveData(startLat, startLng, endLat, endLng) {
+function retrieveData(startLat, startLng, endLat, endLng) {
 	//Fetch the newest lyft token. Uber's server token is ready
 	fetchLyftToken()
 		.then(data => { lyftTokenHandler(data);
