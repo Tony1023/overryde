@@ -52,7 +52,15 @@ function getLocation() {
 function getHere(func){
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-      (position)=>{console.log(position); origin_d = position.coords;},
+      (position)=>{console.log(position);
+        origin_d = position.coords;
+        let here = {
+          lat: origin_d.latitude,
+          lng: origin_d.longitude
+        }
+        console.log("Finished fetching", position.coords);
+        mapRealInit(here);
+      },
       (err)=>{showLocationError(err);}
     );
   } else {
@@ -66,12 +74,11 @@ function getHere(func){
 // DRAW MAP
 /*************************************************************/
 function mapInit() {
-  var here = {lat: undefined, lng:undefined};
   getHere();
+}
 
-
-
-
+function mapRealInit(here) {
+  console.log(here);
   //init map
   //  if(typeof document.getElementById('map') !== 'object'){
   var map = new google.maps.Map(document.getElementById('map'), {
