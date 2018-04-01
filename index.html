@@ -3,14 +3,50 @@
   <head>
 
     <!-- Required meta tags -->
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-     <!-- Bootstrap CSS -->
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      body {
+        margin-left: auto;
+        margin-right: auto;
+        width: 1000px;
+      }
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+      #uberinfo, #lyftinfo {
+        padding: 50px 100px 50px 100px;
+        margin: 10px;
+        width: 480px;
+        float: left;
+      }
+      #main h1 {
+        text-align: center;
+      }
+      .datarow {
+        position: relative;
+      }
+      .price {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+      }
+      #resetorigin {
+        margin: 20px 10px 10px 10px;
+      }
+      #reset-origin {
+        margin-top: 10px;
+      }
+      .clearfloat {
+        clear: both;
+      }
+    </style>
 
-
-    <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="map_js.js"></script>
 
 
@@ -47,19 +83,39 @@
 
 
     <!-- Input form for DESTINATION -->
-    <form>
-      <label for="DEST">Trip Destination</label>
-        <input type="text" id="destination-input" class="form-control controls" placeholder="Enter Your Destination" aria-label="DEST" aria-describedby="basic-addon2">
-    </form>
+    <div id="resetorigin">
+      <form>
+        <label for="DEST">Trip Destination</label>
+          <input type="text" id="destination-input" class="form-control controls" placeholder="Enter Your Destination" aria-label="DEST" aria-describedby="basic-addon2">
+      </form>
 
     <!-- Button to reset ORIGIN -->
-    <form>
-      <button type="button" id="reset-origin" class="btn btn-warning mx-auto">Reset Origin</button>
-    </form>
+      <form>
+        <button type="button" id="reset-origin" class="btn btn-warning mx-auto">Reset Origin</button>
+      </form>
 
+    </div>
 
-    <button type="button" class="btn btn-primary">Fryft</button>
-    <button type="button" class="btn btn-primary">Fruber</button>
+    <div id="main">
+      <div id="uberinfo" class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Fuber</h1>
+            <div class="datarow lead"><span>Fuber Pool</span><span id="pool" class="price">10-20</span></div>
+            <div class="datarow lead"><span>FuberX</span><span id="uberX" class="price">30-50</span></div>
+            <div class="datarow lead"><span>FuberXL</span><span id="uberXL" class="price">40-60</span></div>
+        </div>
+      </div>
+      <div id="lyftinfo" class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Fryft</h1>
+            <div class="datarow lead"><span>Fryft Line</span><span id="lyftline" class="price">10</span></div>
+            <div class="datarow lead"><span>Fryft</span><span id="lyft" class="price">30</span></div>
+            <div class="datarow lead"><span>Fryft Plus</span><span id="lyftplus" class="price">40</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfloat"></div>
 
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBX2wovb-LmHI1RLmYkNHWcuQQV68ViIBM&libraries=places&callback=mapInit"
