@@ -130,8 +130,8 @@ function mapRealInit(here) {
     */
 
 
-    map.setCenter({lat:place.geometry.location.lat-here.lat/2,
-      lng:place.geometry.location.lat-here.lng/2});
+    map.setCenter({lat:place.geometry.location.lat()-here.lat/2,
+      lng:place.geometry.location.lng()-here.lng/2});
     map.setZoom(17);  // Why 17? Because it looks good.
 
 
