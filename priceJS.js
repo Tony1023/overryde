@@ -41,7 +41,7 @@ var lyftTarget = new EventTarget();
 
 /**
  * Functions that make requests to the uber and lyft APIs for prices
- * Lyft key is ranlated by https://github.com/kigiri/fetch, original client_id and client_secret not listed
+ * Lyft key is translated by https://github.com/kigiri/fetch, original client_id and client_secret not listed
  */
 const lyftKey = 'dURUWndGcUxsSnJwOkRVdDVDUXI4bkRUSWhzNjFtWHZpY3FBMUFrMFhZdWFF'
 let accessToken = {
