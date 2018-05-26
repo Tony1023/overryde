@@ -39,19 +39,10 @@ EventTarget.prototype.dispatchEvent = function(event) {
 var uberTarget = new EventTarget();
 var lyftTarget = new EventTarget();
 
-/**
- * Functions that make requests to the uber and lyft APIs for prices
- * Lyft key is translated by https://github.com/kigiri/fetch, original client_id and client_secret not listed
- */
-const lyftKey = 'dURUWndGcUxsSnJwOkRVdDVDUXI4bkRUSWhzNjFtWHZpY3FBMUFrMFhZdWFF'
-let accessToken = {
-	lyft: '',
-	uber: '-Q_I4XWhcADPx5e2YXUJQnndK2Cs6ugTM9_HkdJA'
-}
-
 function retrieveData(startLat, startLng, endLat, endLng) {
 	console.log(endLat);
 	//Fetch the newest lyft token. Uber's server token is ready
+	
 	fetchLyftToken()
 		.then(data => {
 			lyftTokenHandler(data);
@@ -60,25 +51,25 @@ function retrieveData(startLat, startLng, endLat, endLng) {
 	fetchUberPrice(startLat, startLng, endLat, endLng);
 }
 
-/**
- * Use .then to get access to the data post-fetched
- */
-function fetchLyftToken() {
-	return fetch("https://api.lyft.com/oauth/token", {
-		body: JSON.stringify({
-			"grant_type": "client_credentials",
-			"scope": "public"
-		}),
-		headers: {
-			Authorization: "Basic " + lyftKey,
-			"Content-Type": "application/json"
-		},
-		method: "POST"
-	})
-		.then(response => response.json());
-}
+// /**
+//  * Use .then to get access to the data post-fetched
+//  */
+// function fetchLyftToken() {
+// 	return fetch("https://api.lyft.com/oauth/token", {
+// 		body: JSON.stringify({
+// 			"grant_type": "client_credentials",
+// 			"scope": "public"
+// 		}),
+// 		headers: {
+// 			Authorization: "Basic " + lyftKey,
+// 			"Content-Type": "application/json"
+// 		},
+// 		method: "POST"
+// 	})
+// 		.then(response => response.json());
+// }
 
-function lyftTokenHandler(data) { accessToken.lyft = data.access_token; }
+// function lyftTokenHandler(data) { accessToken.lyft = data.access_token; }
 
 function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 	console.log("Start fetching Lyft prices");
