@@ -57,5 +57,7 @@ typings/
 # dotenv environment variables file
 .env
 
+.DS_Store
+oldfiles/
 # secrete key files
 keys.js
