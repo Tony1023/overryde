@@ -59,5 +59,6 @@ typings/
 
 .DS_Store
 oldfiles/
+yarn.lock
 # secrete key files
 keys.js
