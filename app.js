@@ -24,25 +24,36 @@ app.get('/', (req, res) => {
     accessToken.uber = keys.uberKey;
   if (accessToken.lyft == 'lyftToken') {
     fetchLyftToken()
-      .then(data => { accessToken.lyft = data.access_token; 
-        console.log(accessToken);
-      });
+      .then(data => accessToken.lyft = data.access_token);
   }
   return res.render('index.ejs');
 });
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+
+app.get('/searchLyft', (req, res) => {
+  fetch(req.headers.url, {
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + accessToken.lyft
+    }
+  })
+    .then(response => response.json())
+    .then(data => res.status(200).send(data));
 });
 
-
-/********************************************
- * Core implementation starts here...
- ********************************************/
+app.get('/searchUber', (req, res) => {
+  fetch(req.headers.url, {
+		headers: {
+			Authorization: 'Token ' + accessToken.uber,
+			'Content-Type': 'application/json'
+		}
+	})
+		.then(response => response.json())
+		.then(data => res.status(200).send(data));
+});
 
 let accessToken = {
-	lyft: 'lyftToken',
+  lyft: 'lyftToken',
 	uber: 'uberToken'
 }
 
@@ -50,19 +61,24 @@ let accessToken = {
  * Use .then to get access to the data post-fetched
  */
 function fetchLyftToken() {
-	return fetch("https://api.lyft.com/oauth/token", {
-		body: JSON.stringify({
-			"grant_type": "client_credentials",
+  return fetch("https://api.lyft.com/oauth/token", {
+    body: JSON.stringify({
+      "grant_type": "client_credentials",
 			"scope": "public"
 		}),
 		headers: {
-			Authorization: "Basic " + keys.lyftKey,
+      Authorization: "Basic " + keys.lyftKey,
 			"Content-Type": "application/json"
 		},
 		method: "POST"
 	})
-		.then(response => response.json());
+  .then(response => response.json());
 }
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
 // error handler
 app.use(function(err, req, res, next) {

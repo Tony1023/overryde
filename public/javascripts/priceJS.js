@@ -40,64 +40,35 @@ var uberTarget = new EventTarget();
 var lyftTarget = new EventTarget();
 
 function retrieveData(startLat, startLng, endLat, endLng) {
-	console.log(endLat);
-	//Fetch the newest lyft token. Uber's server token is ready
-	
-	fetchLyftToken()
-		.then(data => {
-			lyftTokenHandler(data);
-			fetchLyftPrice(startLat, startLng, endLat, endLng)
-		});
+	fetchLyftPrice(startLat, startLng, endLat, endLng);
 	fetchUberPrice(startLat, startLng, endLat, endLng);
 }
 
-// /**
-//  * Use .then to get access to the data post-fetched
-//  */
-// function fetchLyftToken() {
-// 	return fetch("https://api.lyft.com/oauth/token", {
-// 		body: JSON.stringify({
-// 			"grant_type": "client_credentials",
-// 			"scope": "public"
-// 		}),
-// 		headers: {
-// 			Authorization: "Basic " + lyftKey,
-// 			"Content-Type": "application/json"
-// 		},
-// 		method: "POST"
-// 	})
-// 		.then(response => response.json());
-// }
-
-// function lyftTokenHandler(data) { accessToken.lyft = data.access_token; }
 
 function fetchLyftPrice(startLat, startLng, endLat, endLng) {
-	console.log("Start fetching Lyft prices");
-	let url = "https://api.lyft.com/v1/cost?start_lat=" + String(startLat) + "&start_lng=" + String(startLng) + "&end_lat=" + String(endLat) + "&end_lng=" + String(endLng);
-	return fetch(url, {
+	//let url = "https://api.lyft.com/v1/cost?start_lat=" + String(startLat) + "&start_lng=" + String(startLng) + "&end_lat=" + String(endLat) + "&end_lng=" + String(endLng);
+	let url = "https://api.lyft.com/v1/cost?start_lat=" + "34.0689254" + "&start_lng=" + "-118.4473698" + "&end_lat=" + String(endLat) + "&end_lng=" + String(endLng);
+	fetch('/searchLyft', {
 		method: "GET",
 		headers: {
-			Authorization: "Bearer " + accessToken.lyft
+			url: url
 		}
 	})
 		.then(response => response.json())
-		.then(data => lyftEvent(data));
+		.then(data => {console.log(data);lyftEvent(data)});
 }
 
 function fetchUberPrice(startLat, startLng, endLat, endLng) {
-	let url = "https://api.uber.com/v1/estimates/price?start_latitude=" + String(startLat) + "&start_longitude=" + String(startLng) + "&end_latitude=" + String(endLat) + "&end_longitude=" + String(endLng);
-	//url += ("&server_token=" + accessToken.uber);
-	console.log(url);
+	let url = "https://api.uber.com/v1.2/estimates/price?start_latitude=" + "34.0689254" + "&start_longitude=" + "-118.4473698" + "&end_latitude=" + String(endLat) + "&end_longitude=" + String(endLng);
 
-	fetch(url, {
+	fetch('/searchUber', {
+		method: 'GET',
 		headers: {
-			Authorization: 'Token -Q_I4XWhcADPx5e2YXUJQnndK2Cs6ugTM9_HkdJA',
-			'Content-Type': 'application/json',
-			'Accept-Language': 'en_US'
+			url: url
 		}
 	})
 		.then(response => response.json())
-		.then(data => uberEvent(data));
+		.then(data => {console.log(data);uberEvent(data)});
 }
 
 /**
