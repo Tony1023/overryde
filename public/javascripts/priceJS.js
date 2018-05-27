@@ -48,7 +48,7 @@ function retrieveData(startLat, startLng, endLat, endLng) {
 function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 	let url = "https://api.lyft.com/v1/cost?start_lat=" + String(startLat) + "&start_lng=" + String(startLng) + "&end_lat=" + String(endLat) + "&end_lng=" + String(endLng);
 	//let url = "https://api.lyft.com/v1/cost?start_lat=" + "34.0689254" + "&start_lng=" + "-118.4473698" + "&end_lat=" + String(endLat) + "&end_lng=" + String(endLng);
-	fetch('/searchLyft', {
+	fetch('/overryde/searchLyft', {
 		method: "GET",
 		headers: {
 			url: url
@@ -61,7 +61,7 @@ function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 function fetchUberPrice(startLat, startLng, endLat, endLng) {
 	let url = "https://api.uber.com/v1.2/estimates/price?start_latitude=" + String(startLat) + "&start_longitude=" + String(startLng) + "&end_latitude=" + String(endLat) + "&end_longitude=" + String(endLng);
 
-	fetch('/searchUber', {
+	fetch('/overryde/searchUber', {
 		method: 'GET',
 		headers: {
 			url: url
