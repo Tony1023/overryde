@@ -7,6 +7,7 @@ const keys = require('./keys');
 var router = express.Router();
 const fetch = require('isomorphic-fetch');
 var app = express();
+const bodyParser = require('body-parser');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -14,7 +15,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
