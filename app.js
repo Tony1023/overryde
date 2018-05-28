@@ -13,6 +13,11 @@ const bodyParser = require('body-parser');
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
+app.set('trust proxy', function (ip) {
+  if (ip === '127.0.0.1') return true // trusted IPs
+  else return false
+})
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
