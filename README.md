@@ -19,5 +19,3 @@ You should convert the lyft client id and client secret [here](https://kigiri.gi
 
 ## Notes on branches
 This project was initiated and partly finished (very crudely indeed) during LAHacks 2018. The full history is on branch `LAHacks`. Then we did not bother to protect our server tokens so as you can see that they are lying there in the js files. But we have generated new keys and discarded the ones used in LAHacks for this deployment.
-
-The version deployed is on branch `dev`. I used nginx to proxy_pass the requests to the designated port on my server, but the `GET` requests made by the html file (when including javascript from public/) are made to my homepage so I have to manually add the prefix `/overryde/`. I'm going to look deeper into how nginx works and figure out a solution.
