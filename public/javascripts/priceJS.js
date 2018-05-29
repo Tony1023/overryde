@@ -1,7 +1,3 @@
-import {EventTarget} from 'EventTarget.js'
-
-var uberTarget = new EventTarget();
-var lyftTarget = new EventTarget();
 
 async function retrieveData(startLat, startLng, endLat, endLng) {
 	const lyftPrices = fetchLyftPrice(startLat, startLng, endLat, endLng);

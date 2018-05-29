@@ -148,12 +148,16 @@ map.setCenter({lat:place.geometry.location.lat()-here.lat/2,
   marker.setPosition(place.geometry.location);
   marker.setVisible(true);
 
-  var cdocevent = new CustomEvent("k", {detail: {
+
+  var cdocdata =  {detail: {
     origin: here,
     dest: place.geometry.location.toJSON()
   }});
 
-  target.dispatchEvent(cdocevent);
+  let o = cdocdata.detail.origin;
+  let d = cdocdata.detail.dest;
+  console.log(cdocdata.detail);
+  retrieveData(o.lat, o.lng, d.lat, d.lng);
 
 });
 };
