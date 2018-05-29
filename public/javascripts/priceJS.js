@@ -1,40 +1,4 @@
-var EventTarget = function() {
-  this.listeners = {};
-};
-
-EventTarget.prototype.listeners = null;
-EventTarget.prototype.addEventListener = function(type, callback) {
-  if (!(type in this.listeners)) {
-    this.listeners[type] = [];
-  }
-  this.listeners[type].push(callback);
-};
-
-EventTarget.prototype.removeEventListener = function(type, callback) {
-  if (!(type in this.listeners)) {
-    return;
-  }
-  var stack = this.listeners[type];
-  for (var i = 0, l = stack.length; i < l; i++) {
-    if (stack[i] === callback){
-      stack.splice(i, 1);
-      return;
-    }
-  }
-};
-
-EventTarget.prototype.dispatchEvent = function(event) {
-  if (!(event.type in this.listeners)) {
-    return true;
-  }
-  var stack = this.listeners[event.type];
-
-  for (var i = 0, l = stack.length; i < l; i++) {
-    stack[i].call(this, event);
-  }
-  return !event.defaultPrevented;
-};
-
+import {EventTarget} from 'EventTarget.js'
 
 var uberTarget = new EventTarget();
 var lyftTarget = new EventTarget();
@@ -78,11 +42,11 @@ function fetchUberPrice(startLat, startLng, endLat, endLng) {
 const lyftType = ['lyft_line', 'lyft', 'lyft_plus'];
 const uberType = ['POOL', 'uberX', 'uberXL'];
 const typeToName = {
-	'lyft_line': 'Fryft Line', 
-	'lyft': 'Fryft', 
+	'lyft_line': 'Fryft Line',
+	'lyft': 'Fryft',
 	'lyft_plus': 'Fryft Plus',
 	'POOL': 'Fuber Pool',
-	'uberX': 'FuberX', 
+	'uberX': 'FuberX',
 	'uberXL': 'FuberXL'
 }
 
@@ -97,7 +61,7 @@ function lyftEvent(data) {
 	let parse = data.cost_estimates.filter(typeMatch)
 	let eventData = { detail: [] };
 	parse.forEach(function (item) {
-		eventData.detail.push({ 
+		eventData.detail.push({
 			key: item.ride_type,
 			value: { 'estimatedPrice': parseInt(item.estimated_cost_cents_min / 100) }
 		})
@@ -115,7 +79,7 @@ function uberEvent(data) {
 	let eventData = { detail: [] };
 	parse.forEach(function (item) {
 		eventData.detail.push({
-			key: item.localized_display_name, 
+			key: item.localized_display_name,
 			value: {
 				'estimatedPrice': item.low_estimate,
 				'estimatedPrice_high': item.high_estimate
