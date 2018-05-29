@@ -65,8 +65,16 @@
   <script>
     //EventListener for when HTML5 can fix location/*
     document.addEventListener("DOMContentLoaded", () => {
-      getLocation();
-      mapInit();
+      locationPromise()
+      .then(setWhere,
+        (reason)=>(
+          if(reason instanceOf PossibleError){
+            alert("Try refreshing");
+          }else{
+            alert("Doesn't work");
+          }
+        ))
+      .then(mapInit);
       target.addEventListener("k", (data) => {
         //console.log(data);
         let o = data.detail.origin;
@@ -138,7 +146,7 @@
     <div class="jumbotron jumbotron-fluid">
       <h1 class="display-4">Fuber</h1>
       <div id="uberinfo">
-        
+
         <div class="datarow lead">
           <span>Fuber Pool</span>
           <span id="lyft_line" class="price">Loading...</span>
@@ -151,13 +159,13 @@
           <span>FuberXL</span>
           <span id="lyft_plus" class="price">Loading...</span>
         </div>
-        
+
       </div>
     </div>
     <div class="jumbotron jumbotron-fluid">
       <h1 class="display-4">Fryft</h1>
       <div id="lyftinfo">
-        
+
         <div class="datarow lead">
           <span>Fryft Line</span>
           <span id="POOL" class="price">Loading...</span>
@@ -170,7 +178,7 @@
           <span>Fryft Plus</span>
           <span id="uberXL" class="price">Loading...</span>
         </div>
-        
+
       </div>
     </div>
   </div>
