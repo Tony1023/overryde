@@ -1,5 +1,3 @@
-import {EventTarget} from 'EventTarget.js'
-
 //Define custom error
 //Adapted from MDN Error code
 class PossibleError extends Error {
@@ -20,8 +18,6 @@ class PossibleError extends Error {
 
 var perm_map = undefined;
 var origin_d = undefined;
-
-var target = new EventTarget();
 
 //Error Callback for Location services
 function showLocationError(error) {
