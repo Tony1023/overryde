@@ -6,16 +6,15 @@ var lyftTarget = new EventTarget();
 async function retrieveData(startLat, startLng, endLat, endLng) {
 	const lyftPrices = fetchLyftPrice(startLat, startLng, endLat, endLng);
 	const uberPrices = fetchUberPrice(startLat, startLng, endLat, endLng);
-	await lyftPrices;
-	await uberPrices;
+	await resolveLyft(lyftPrices);
+	await resolveUber(uberPrices);
 }
-
 
 async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 	let url = "https://api.lyft.com/v1/cost?start_lat=" + String(startLat) + "&start_lng=" + String(startLng) + "&end_lat=" + String(endLat) + "&end_lng=" + String(endLng);
 	//let url = "https://api.lyft.com/v1/cost?start_lat=" + "34.0689254" + "&start_lng=" + "-118.4473698" + "&end_lat=" + String(endLat) + "&end_lng=" + String(endLng);
 	try{
-		const response = fetch('/searchLyft', {
+		const response = await fetch('/searchLyft', {
 			method: "GET",
 			headers: {
 				url: url
@@ -23,16 +22,17 @@ async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 		});
 		var data = await response.json();
 		console.log(data);
-		lyftEvent(data);
+		return await lyftEvent(data);
 	}catch(err) {
 		console.log('lyft fetch failed', err);
 	}
 }
 
+//async
 function fetchUberPrice(startLat, startLng, endLat, endLng) {
 	let url = "https://api.uber.com/v1.2/estimates/price?start_latitude=" + String(startLat) + "&start_longitude=" + String(startLng) + "&end_latitude=" + String(endLat) + "&end_longitude=" + String(endLng);
 	try{
-		const response = fetch('/searchUber', {
+		const response = await fetch('/searchUber', {
 			method: 'GET',
 			headers: {
 				url: url
@@ -40,7 +40,7 @@ function fetchUberPrice(startLat, startLng, endLat, endLng) {
 		});
 		var data = await response.json();
 		console.log(data);
-		uberEvent(data);
+		return await uberEvent(data);
 	}catch(err){
 		console.log('lyft fetch failed', err);
 	}
@@ -65,6 +65,7 @@ function compare(a, b) {
 	return a.value.estimatedPrice - b.value.estimatedPrice;
 }
 
+//not async
 function lyftEvent(data) {
 	function typeMatch(type) {
 		return lyftType.includes(type.ride_type);
@@ -81,6 +82,7 @@ function lyftEvent(data) {
 	return eventData
 }
 
+//not async
 function uberEvent(data) {
 	function typeMatch(type) {
 		return uberType.includes(type.localized_display_name);
