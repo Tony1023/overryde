@@ -66,17 +66,17 @@ function locationPromise() {
 //Set location from previous promise
 function setWhere(position){
   return new Promise((resolve,reject)=>
-    {
-      console.log(position);
-      origin_d = position.coords;
-      let here = {
-        lat: origin_d.latitude,
-        lng: origin_d.longitude
-      };
-      console.log("Finished fetching", position.coords);
-      resolve(here);
-    }
-  ));
+  {
+    console.log(position);
+    origin_d = position.coords;
+    let here = {
+      lat: origin_d.latitude,
+      lng: origin_d.longitude
+    };
+    console.log("Finished fetching", position.coords);
+    resolve(here);
+  }
+);
 }
 /*************************************************************/
 // DRAW MAP
@@ -89,11 +89,7 @@ function mapInit(here) {
     zoom: 4,
     center: here
   });
-  perm_map = map;
 
-  //}
-
-  map = perm_map;
   let marker1 = new google.maps.Marker({
     map: map,
     label: 'A'
@@ -126,34 +122,36 @@ function mapInit(here) {
       return;
     }
 
-    /*
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-    map.fitBounds(place.geometry.viewport);
-  } else {
-}
-*/
+    let placePos = place.geometry.location;
 
 
-map.setCenter({lat:place.geometry.location.lat()-here.lat/2,
-  lng:place.geometry.location.lng()-here.lng/2});
-  map.setZoom(17);  // Why 17? Because it looks good.
+    console.log("Place geometry", placePos.lat(),placePos.lng());
+    console.log("Location here", here.lat, here.lng);
 
+    marker.setPosition(placePos);
+    marker.setVisible(true);
 
+    let bounds = new google.maps.LatLngBounds();
 
-  marker.setPosition(place.geometry.location);
-  marker.setVisible(true);
+    map.setCenter({lat:(place.geometry.location.lat()+here.lat)/2,
+      lng:(place.geometry.location.lng()+here.lng)/2});
+    bounds.extend(placePos);
+    bounds.extend(here);
+      
 
+    map.setZoom(100);
+    console.log("Zoom", map.getZoom());
+    map.fitBounds(bounds);
 
-  var cdocdata =  {detail: {
-    origin: here,
-    dest: place.geometry.location.toJSON()
-  }});
+    var cdocdata =  {detail: {
+      origin: here,
+      dest: place.geometry.location.toJSON()
+    }};
 
-  let o = cdocdata.detail.origin;
-  let d = cdocdata.detail.dest;
-  console.log(cdocdata.detail);
-  retrieveData(o.lat, o.lng, d.lat, d.lng);
+    let o = cdocdata.detail.origin;
+    let d = cdocdata.detail.dest;
+    console.log(cdocdata.detail);
+    retrieveData(o.lat, o.lng, d.lat, d.lng);
 
-});
-};
+    });
+  };

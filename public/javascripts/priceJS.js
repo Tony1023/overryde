@@ -2,8 +2,8 @@
 async function retrieveData(startLat, startLng, endLat, endLng) {
 	const lyftPrices = fetchLyftPrice(startLat, startLng, endLat, endLng);
 	const uberPrices = fetchUberPrice(startLat, startLng, endLat, endLng);
-	await resolveLyft(lyftPrices);
-	await resolveUber(uberPrices);
+	resolveLyft(await lyftPrices);
+	resolveUber(await uberPrices);
 }
 
 async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
@@ -16,7 +16,7 @@ async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 				url: url
 			}
 		});
-		var data = await response.json();
+		let data = await response.json();
 		console.log(data);
 		return await lyftEvent(data);
 	}catch(err) {
@@ -25,7 +25,7 @@ async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 }
 
 //async
-function fetchUberPrice(startLat, startLng, endLat, endLng) {
+async function fetchUberPrice(startLat, startLng, endLat, endLng) {
 	let url = "https://api.uber.com/v1.2/estimates/price?start_latitude=" + String(startLat) + "&start_longitude=" + String(startLng) + "&end_latitude=" + String(endLat) + "&end_longitude=" + String(endLng);
 	try{
 		const response = await fetch('/searchUber', {
@@ -34,11 +34,11 @@ function fetchUberPrice(startLat, startLng, endLat, endLng) {
 				url: url
 			}
 		});
-		var data = await response.json();
+		let data = await response.json();
 		console.log(data);
 		return await uberEvent(data);
 	}catch(err){
-		console.log('lyft fetch failed', err);
+		console.log('uber fetch failed', err);
 	}
 }
 
