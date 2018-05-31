@@ -65,38 +65,15 @@
   <script>
     //EventListener for when HTML5 can fix location/*
     document.addEventListener("DOMContentLoaded", () => {
-      getLocation();
-      mapInit();
-      target.addEventListener("k", (data) => {
-        //console.log(data);
-        let o = data.detail.origin;
-        let d = data.detail.dest;
-        console.log(data.detail);
-        retrieveData(o.lat, o.lng, d.lat, d.lng);
-      });
-
-      uberTarget.addEventListener("uberPrice", (data) => {
-        let prices = data.detail;
-        console.log(prices);
-        let x = document.getElementById("uberinfo");
-        let text = '';
-        prices.forEach(function (item) {
-          console.log(item);
-          text += ('<div class="datarow lead">' + typeToName[item.key] + '<span class="price">' + String(item.value.estimatedPrice) + '-' + String(item.value.estimatedPrice_high) + '</span></div/>');
-        });
-        x.innerHTML = text;
-      });
-      lyftTarget.addEventListener("lyftPrice", (data) => {
-        let prices = data.detail;
-        console.log(prices);
-        let x = document.getElementById("lyftinfo");
-        let text = '';
-        prices.forEach(function (item) {
-          console.log(prices[item]);
-          text += ('<div class="datarow lead">' + typeToName[item.key] + '<span class="price">' + String(item.value.estimatedPrice) + '</span></div/>');
-        });
-        x.innerHTML = text;
-      });
+      locationPromise()
+      .then(setWhere)
+      .then(mapInit)
+      .catch((reason)=>{
+        if(reason instanceof PossibleError){
+          alert("Try refreshing");
+        }else{
+          alert("Doesn't work");
+        }})
     });
   </script>
 
@@ -138,7 +115,7 @@
     <div class="jumbotron jumbotron-fluid">
       <h1 class="display-4">Fuber</h1>
       <div id="uberinfo">
-        
+
         <div class="datarow lead">
           <span>Fuber Pool</span>
           <span id="lyft_line" class="price">Loading...</span>
@@ -151,13 +128,13 @@
           <span>FuberXL</span>
           <span id="lyft_plus" class="price">Loading...</span>
         </div>
-        
+
       </div>
     </div>
     <div class="jumbotron jumbotron-fluid">
       <h1 class="display-4">Fryft</h1>
       <div id="lyftinfo">
-        
+
         <div class="datarow lead">
           <span>Fryft Line</span>
           <span id="POOL" class="price">Loading...</span>
@@ -170,14 +147,14 @@
           <span>Fryft Plus</span>
           <span id="uberXL" class="price">Loading...</span>
         </div>
-        
+
       </div>
     </div>
   </div>
 
   <div class="clearfloat"></div>
 
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBX2wovb-LmHI1RLmYkNHWcuQQV68ViIBM&libraries=places&callback=mapInit" async defer></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBX2wovb-LmHI1RLmYkNHWcuQQV68ViIBM&libraries=places" async defer></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
