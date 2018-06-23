@@ -50,9 +50,6 @@ function locationPromise() {
     var startpos = document.getElementById("map");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position)=>{
-        //console.log(position);
-        //console.log(marker_score.start);
-        console.log("Init map");
         resolve(position);
       }, (err)=>{
         showLocationError(err);
@@ -67,13 +64,11 @@ function locationPromise() {
 function setWhere(position){
   return new Promise((resolve,reject)=>
   {
-    console.log(position);
     origin_d = position.coords;
     let here = {
       lat: origin_d.latitude,
       lng: origin_d.longitude
     };
-    console.log("Finished fetching", position.coords);
     resolve(here);
   }
 );
@@ -82,7 +77,6 @@ function setWhere(position){
 // DRAW MAP
 /*************************************************************/
 function mapInit(here) {
-  console.log(here);
   //init map
   //  if(typeof document.getElementById('map') !== 'object'){
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -97,10 +91,12 @@ function mapInit(here) {
 
   marker1.setPosition(here);
 
-  var input = document.getElementById('destination-input');
+  var dest = document.getElementById('destination-input');
+  var origin = document.getElementById('origin-input');
 
   //map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-  var autocomplete = new google.maps.places.Autocomplete(input);
+  var destAutocomplete = new google.maps.places.Autocomplete(dest);
+  var originAutocomplete = new google.maps.places.Autocomplete(origin);
 
   // Bind the map's bounds (viewport) property to the autocomplete object,
   // so that the autocomplete requests use the current map bounds for the
@@ -111,47 +107,55 @@ function mapInit(here) {
     label:'B'
   });
 
-  autocomplete.addListener('place_changed', function() {
+  $('#search-btn').on('click', function() {
     marker.setVisible(false);
-    var place = autocomplete.getPlace();
-    //console.log(place);
-    if (!place.geometry) {
+    let destPlace = destAutocomplete.getPlace();
+    if (!destPlace.geometry) {
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
+      window.alert("No details available for input: '" + destPlace.name + "'");
       return;
     }
 
-    let placePos = place.geometry.location;
+    let there = destPlace.geometry.location;
 
-
-    console.log("Place geometry", placePos.lat(),placePos.lng());
-    console.log("Location here", here.lat, here.lng);
-
-    marker.setPosition(placePos);
+    marker.setPosition(there);
     marker.setVisible(true);
+
+    if (!$('#useHere').is(':checked')) {
+      let originPlace = originAutocomplete.getPlace();
+      here = originPlace.geometry.location.toJSON();
+      marker1.setPosition(here);
+    } else {
+      here = {
+        lat: origin_d.latitude,
+        lng: origin_d.longitude
+      }
+      marker1.setPosition(here);
+    }
 
     let bounds = new google.maps.LatLngBounds();
 
-    map.setCenter({lat:(place.geometry.location.lat()+here.lat)/2,
-      lng:(place.geometry.location.lng()+here.lng)/2});
-    bounds.extend(placePos);
+    map.setCenter({
+      lat:(there.lat()+here.lat)/2,
+      lng:(there.lng()+here.lng)/2
+    });
+
+    bounds.extend(there);
     bounds.extend(here);
       
 
     map.setZoom(100);
-    console.log("Zoom", map.getZoom());
     map.fitBounds(bounds);
 
     var cdocdata =  {detail: {
       origin: here,
-      dest: place.geometry.location.toJSON()
+      dest: there.toJSON()
     }};
 
     let o = cdocdata.detail.origin;
     let d = cdocdata.detail.dest;
-    console.log(cdocdata.detail);
     retrieveData(o.lat, o.lng, d.lat, d.lng);
 
     });
-  };
+}

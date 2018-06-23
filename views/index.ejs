@@ -56,7 +56,6 @@
   <script>
     //EventListener for when HTML5 can fix location/*
     document.addEventListener("DOMContentLoaded", () => {
-      console.log('Content loaded');
       locationPromise()
       .then(setWhere)
       .then(mapInit)
@@ -92,14 +91,14 @@
   <div id="resetorigin">
     <form>
       <label for="ORIN">Trip Origin</label>
-      <lable>Use current location</lable><input type="checkbox">
+      <lable>Use current location</lable><input id='useHere' type="checkbox">
       <input type="text" id="origin-input" class="form-control controls" placeholder="Enter Your Origin" aria-lable="ORIN" aria-describedby="basic-addon2">
       <label for="DEST">Trip Destination</label>
       <input type="text" id="destination-input" class="form-control controls" placeholder="Enter Your Destination" aria-label="DEST"
         aria-describedby="basic-addon2">
     </form>
     <form>
-      <input type="button" value="search" class="btn btn-warning mx-auto">
+      <input id="search-btn" type="button" value="search" class="btn btn-warning mx-auto">
     </form>
 
   </div>
