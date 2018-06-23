@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const keys = require('./keys');
-var router = express.Router();
 const fetch = require('isomorphic-fetch');
 var app = express();
 const bodyParser = require('body-parser');

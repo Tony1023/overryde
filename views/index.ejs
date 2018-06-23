@@ -11,22 +11,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
     crossorigin="anonymous">
   <style>
-    body {
-      margin-left: auto;
-      margin-right: auto;
-      width: 1000px;
-    }
+  
 
     #map {
       height: 400px;
       width: 100%;
-    }
-
-    #main > div {
-      padding: 50px 100px 50px 100px;
-      margin: 10px;
-      width: 480px;
-      float: left;
     }
 
     #main h1 {
@@ -34,10 +23,10 @@
     }
 
     .datarow {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 300px;
       position: relative;
-    }
-    #uberinfo, #lyftinfo {
-      height: 90px;
     }
 
     .price {
@@ -50,12 +39,14 @@
       margin: 20px 10px 10px 10px;
     }
 
-    #reset-origin {
-      margin-top: 10px;
-    }
-
     .clearfloat {
       clear: both;
+    }
+
+    @media screen and (min-width: 668px) {
+      #separater {
+        display: none;
+      }
     }
   </style>
 
@@ -99,21 +90,22 @@
   <!-- Input form for DESTINATION -->
   <div id="resetorigin">
     <form>
+      <label for="ORIN">Trip Origin</label>
+      <lable>Use current location</lable><input id='useHere' type="checkbox">
+      <input type="text" id="origin-input" class="form-control controls" placeholder="Enter Your Origin" aria-lable="ORIN" aria-describedby="basic-addon2">
       <label for="DEST">Trip Destination</label>
       <input type="text" id="destination-input" class="form-control controls" placeholder="Enter Your Destination" aria-label="DEST"
         aria-describedby="basic-addon2">
     </form>
-
-    <!-- Button to reset ORIGIN -->
     <form>
-      <button type="button" id="reset-origin" class="btn btn-warning mx-auto" onClick="window.location.reload()">Reload</button>
+      <input id="search-btn" type="button" value="search" class="btn btn-warning mx-auto">
     </form>
 
   </div>
 
-  <div id="main">
-    <div class="jumbotron jumbotron-fluid">
-      <h1 class="display-4">Fuber</h1>
+  <div class="row mx-2">
+    <div class="m-1 jumbotron col">
+      <h1 class="display-4 text-center">Fuber</h1>
       <div id="uberinfo">
 
         <div class="datarow lead">
@@ -131,10 +123,10 @@
 
       </div>
     </div>
-    <div class="jumbotron jumbotron-fluid">
-      <h1 class="display-4">Fryft</h1>
+    <div id='separater' class='w-100'></div>
+    <div class="m-1 jumbotron col">
+      <h1 class="display-4 text-center">Fryft</h1>
       <div id="lyftinfo">
-
         <div class="datarow lead">
           <span>Fryft Line</span>
           <span id="POOL" class="price">Loading...</span>

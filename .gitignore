@@ -62,3 +62,5 @@ oldfiles/
 yarn.lock
 # secrete key files
 keys.js
+# IntelliJ config files
+/.idea

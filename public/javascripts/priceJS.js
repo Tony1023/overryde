@@ -17,7 +17,7 @@ async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 			}
 		});
 		let data = await response.json();
-		console.log(data);
+		// console.log(data);
 		return await lyftEvent(data);
 	}catch(err) {
 		console.log('lyft fetch failed', err);
@@ -35,10 +35,9 @@ async function fetchUberPrice(startLat, startLng, endLat, endLng) {
 			}
 		});
 		let data = await response.json();
-		console.log(data);
 		return await uberEvent(data);
 	}catch(err){
-		console.log('uber fetch failed', err);
+		console.log('Uber fetch failed', err);
 	}
 }
 
@@ -47,14 +46,14 @@ async function fetchUberPrice(startLat, startLng, endLat, endLng) {
  */
 
 const lyftType = ['lyft_line', 'lyft', 'lyft_plus'];
-const uberType = ['POOL', 'uberX', 'uberXL'];
+const uberType = ['Pool', 'UberX', 'UberXL'];
 const typeToName = {
 	'lyft_line': 'Fryft Line',
 	'lyft': 'Fryft',
 	'lyft_plus': 'Fryft Plus',
-	'POOL': 'Fuber Pool',
-	'uberX': 'FuberX',
-	'uberXL': 'FuberXL'
+	'Pool': 'Fuber Pool',
+	'UberX': 'FuberX',
+	'UberXL': 'FuberXL'
 }
 
 function compare(a, b) {
@@ -75,13 +74,13 @@ function lyftEvent(data) {
 		})
 	});
 	eventData.detail.sort(compare);
-	return eventData
+	return eventData;
 }
 
 //not async
 function uberEvent(data) {
 	function typeMatch(type) {
-		return uberType.includes(type.localized_display_name);
+		return uberType.includes(type.display_name);
 	}
 	let parse = data.prices.filter(typeMatch);
 	let eventData = { detail: [] };
@@ -93,19 +92,16 @@ function uberEvent(data) {
 				'estimatedPrice_high': item.high_estimate
 			}
 		})
-	})
-	console.log(parse);
+	});
 	eventData.detail.sort(compare);
 	return eventData;
 }
 
 function resolveUber(data){
 	let prices = data.detail;
-	console.log(prices);
 	let x = document.getElementById("uberinfo");
 	let text = '';
 	prices.forEach(function (item) {
-		console.log(item);
 		text += ('<div class="datarow lead">' + typeToName[item.key] + '<span class="price">' + String(item.value.estimatedPrice) + '-' + String(item.value.estimatedPrice_high) + '</span></div/>');
 	});
 	x.innerHTML = text;
@@ -113,11 +109,9 @@ function resolveUber(data){
 
 function resolveLyft(data){
 	let prices = data.detail;
-	console.log(prices);
 	let x = document.getElementById("lyftinfo");
 	let text = '';
 	prices.forEach(function (item) {
-		console.log(prices[item]);
 		text += ('<div class="datarow lead">' + typeToName[item.key] + '<span class="price">' + String(item.value.estimatedPrice) + '</span></div/>');
 	});
 	x.innerHTML = text;
