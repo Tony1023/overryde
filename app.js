@@ -54,10 +54,13 @@ app.get('/searchUber', (req, res) => {
 		}
 	})
 		.then(response => {
-		  console.log(response);
 		  response.json()
+		  console.log(response);
 		})
-		.then(data => res.status(200).send(data));
+		.then(data => {
+		  console.log(data);
+		  res.status(200).send(data)
+    });
 });
 
 let accessToken = {
