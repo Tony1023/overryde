@@ -53,7 +53,10 @@ app.get('/searchUber', (req, res) => {
 			'Content-Type': 'application/json'
 		}
 	})
-		.then(response => response.json())
+		.then(response => {
+		  console.log(response);
+		  response.json()
+		})
 		.then(data => res.status(200).send(data));
 });
 
