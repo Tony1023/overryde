@@ -43,7 +43,10 @@ app.get('/searchLyft', (req, res) => {
     }
   })
     .then(response => response.json())
-    .then(data => res.status(200).send(data));
+    .then(data => {
+      console.log(data);
+      res.status(200).send(data);
+    });
 });
 
 app.get('/searchUber', (req, res) => {
@@ -53,13 +56,10 @@ app.get('/searchUber', (req, res) => {
 			'Content-Type': 'application/json'
 		}
 	})
-		.then(response => {
-		  response.json()
-		  console.log(response);
-		})
+		.then(response => response.json())
 		.then(data => {
 		  console.log(data);
-		  res.status(200).send(data)
+		  res.status(200).send(data);
     });
 });
 
