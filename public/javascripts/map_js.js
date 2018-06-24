@@ -156,6 +156,5 @@ function mapInit(here) {
     let o = cdocdata.detail.origin;
     let d = cdocdata.detail.dest;
     retrieveData(o.lat, o.lng, d.lat, d.lng);
-
-    });
+  });
 }
