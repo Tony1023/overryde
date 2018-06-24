@@ -16,6 +16,7 @@ async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
 				url: url
 			}
 		});
+		console.log(data);
 		let data = await response.json();
 		// console.log(data);
 		return await lyftEvent(data);
