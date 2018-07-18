@@ -62,6 +62,7 @@ function compare(a, b) {
 
 //not async
 function lyftEvent(data) {
+	console.log(data);
 	function typeMatch(type) {
 		return lyftType.includes(type.ride_type);
 	}
@@ -79,6 +80,7 @@ function lyftEvent(data) {
 
 //not async
 function uberEvent(data) {
+	console.log(data);
 	function typeMatch(type) {
 		return uberType.includes(type.display_name);
 	}
