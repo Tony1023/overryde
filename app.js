@@ -25,10 +25,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // renders homepage
 app.get('/', (req, res) => {
-  if (accessToken.uber == 'uberToken') {
-    accessToken.uber = keys.uberKey;
-  }
-  if (accessToken.lyft == 'lyftToken') {
+  if (accessToken.lyft === 'lyftToken') {
     fetchLyftToken()
       .then(data => accessToken.lyft = data.access_token);
   }
@@ -64,7 +61,7 @@ app.get('/searchUber', (req, res) => {
 
 let accessToken = {
   lyft: 'lyftToken',
-	uber: 'uberToken'
+	uber: keys.uberKey
 }
 
 /**
