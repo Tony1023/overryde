@@ -25,8 +25,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // renders homepage
 app.get('/', (req, res) => {
-  if (accessToken.uber == 'uberToken')
+  if (accessToken.uber == 'uberToken') {
     accessToken.uber = keys.uberKey;
+  }
   if (accessToken.lyft == 'lyftToken') {
     fetchLyftToken()
       .then(data => accessToken.lyft = data.access_token);
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 
 
 app.get('/searchLyft', (req, res) => {
+  console.log(accessToken.lyft);
   fetch(req.headers.url, {
     method: 'GET',
     headers: {
@@ -48,6 +50,7 @@ app.get('/searchLyft', (req, res) => {
 });
 
 app.get('/searchUber', (req, res) => {
+  console.log(accessToken.uber);
   fetch(req.headers.url, {
 		headers: {
 			Authorization: 'Token ' + accessToken.uber,
