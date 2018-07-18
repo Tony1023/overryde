@@ -43,7 +43,8 @@ app.get('/searchLyft', (req, res) => {
     }
   })
     .then(response => response.json())
-    .then(data => res.status(200).send(data));
+    .then(data => res.status(200).send(data))
+    .catch(err => console.log(err));
 });
 
 app.get('/searchUber', (req, res) => {
@@ -54,7 +55,8 @@ app.get('/searchUber', (req, res) => {
 		}
 	})
 		.then(response => response.json())
-		.then(data => res.status(200).send(data));
+		.then(data => res.status(200).send(data))
+    .catch(err => console.log(err));
 });
 
 let accessToken = {
