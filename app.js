@@ -24,11 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
 
 // renders homepage
-app.get('/', (req, res) => {
-  if (accessToken.lyft === 'lyftToken') {
-    fetchLyftToken()
-      .then(data => accessToken.lyft = data.access_token);
-  }
+app.get('/', (req, res) => {  
+  fetchLyftToken()
+    .then(data => accessToken.lyft = data.access_token);
   return res.render('index.ejs');
 });
 
