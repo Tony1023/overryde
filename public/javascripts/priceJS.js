@@ -2,8 +2,8 @@
 async function retrieveData(startLat, startLng, endLat, endLng) {
 	const lyftPrices = fetchLyftPrice(startLat, startLng, endLat, endLng);
 	const uberPrices = fetchUberPrice(startLat, startLng, endLat, endLng);
-	resolveLyft(await lyftPrices);
 	resolveUber(await uberPrices);
+	resolveLyft(await lyftPrices);
 }
 
 async function fetchLyftPrice(startLat, startLng, endLat, endLng) {
