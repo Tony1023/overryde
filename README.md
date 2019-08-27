@@ -2,7 +2,7 @@
 
 Comparing prices of uber vs. lyft rides!
 
-The deployment demo can be found [here](https://zhehao-lu.me/overryde/).
+Some of the API endpoints have been changed so they are not functional at the moment. 
 
 ## Instructions
 1. git clone this repo and `npm install` or `yarn install`
